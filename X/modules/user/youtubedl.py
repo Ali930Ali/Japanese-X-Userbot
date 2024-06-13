@@ -52,7 +52,7 @@ from .help import *
 
 
 def get_text(message: Message) -> [None, str]:
-    """Extract Text From Commands"""
+    """Komutlardan Metin Çıkar"""
     text_to_return = message.text
     if message.text is None:
         return None
@@ -66,18 +66,18 @@ def get_text(message: Message) -> [None, str]:
 
 
 @Client.on_message(
-    filters.command(["vid", "video"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["vid", "video"], CMD_HANDLER) & (filters.me | filters.user(SUDO_USERS))
 )
 async def yt_vid(client: Client, message: Message):
     input_st = message.text
     input_str = input_st.split(" ", 1)[1]
-    Man = await edit_or_reply(message, "`Processing...`")
+    Man = await edit_or_reply(message, "`İşleniyor...`")
     if not input_str:
         await Man.edit_text(
-            "`Please Give Me A Valid Input. You Can Check Help Menu To Know More!`"
+            "`Lütfen Geçerli Bir Giriş Verin. Daha Fazla Bilgi İçin Yardım Menüsüne Bakabilirsiniz!`"
         )
         return
-    await Man.edit_text(f"`Searching {input_str} From Youtube. Please Wait.`")
+    await Man.edit_text(f"`Youtube'da {input_str} Aranıyor. Lütfen Bekleyin.`")
     search = SearchVideos(str(input_str), offset=1, mode="dict", max_results=1)
     rt = search.result()
     result_s = rt["search_result"]
@@ -104,11 +104,11 @@ async def yt_vid(client: Client, message: Message):
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(url, download=True)
     except Exception as e:
-        await Man.edit_text(f"**Failed To Download** \n**Error :** `{str(e)}`")
+        await Man.edit_text(f"**İndirme Başarısız Oldu** \n**Hata :** `{str(e)}`")
         return
     time.time()
     file_path = f"{ytdl_data['id']}.mp4"
-    capy = f"**Video Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
+    capy = f"**Video Adı ➠** `{vid_title}` \n**İstenen ➠** `{input_str}` \n**Kanal ➠** `{uploade_r}` \n**Link ➠** `{url}`"
     await client.send_video(
         message.chat.id,
         video=open(file_path, "rb"),
@@ -125,17 +125,17 @@ async def yt_vid(client: Client, message: Message):
 
 
 @Client.on_message(
-    filters.command(["song"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["song"], CMD_HANDLER) & (filters.me | filters.user(SUDO_USERS))
 )
 async def song(client: Client, message: Message):
     input_str = get_text(message)
-    rep = await edit_or_reply(message, "`Processing...`")
+    rep = await edit_or_reply(message, "`İşleniyor...`")
     if not input_str:
         await rep.edit(
-            "`Please Give Me A Valid Input. You Can Check Help Menu To Know More!`"
+            "`Lütfen Geçerli Bir Giriş Verin. Daha Fazla Bilgi İçin Yardım Menüsüne Bakabilirsiniz!`"
         )
         return
-    await rep.edit(f"`Getting {input_str} From Youtube Servers. Please Wait.`")
+    await rep.edit(f"`Youtube Sunucularından {input_str} Alınıyor. Lütfen Bekleyin.`")
     search = SearchVideos(str(input_str), offset=1, mode="dict", max_results=1)
     rt = search.result()
     result_s = rt["search_result"]
@@ -169,11 +169,11 @@ async def song(client: Client, message: Message):
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(url, download=True)
     except Exception as e:
-        await rep.edit(f"**Failed To Download** \n**Error :** `{str(e)}`")
+        await rep.edit(f"**İndirme Başarısız Oldu** \n**Hata :** `{str(e)}`")
         return
     time.time()
     file_path = f"{ytdl_data['id']}.mp3"
-    capy = f"**Song Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
+    capy = f"**Şarkı Adı ➠** `{vid_title}` \n**İstenen ➠** `{input_str}` \n**Kanal ➠** `{uploade_r}` \n**Link ➠** `{url}`"
     await client.send_audio(
         message.chat.id,
         audio=open(file_path, "rb"),
@@ -188,14 +188,13 @@ async def song(client: Client, message: Message):
             os.remove(files)
 
 
-
 add_command_help(
-    "•─╼⃝𖠁 ʏᴏᴜᴛᴜʙᴇ ᴅʟ",
+    "•─╼⃝𖠁 Youtube İndirici",
     [
-        ["song", "Dᴏᴡɴʟᴏᴀᴅ Aᴜᴅɪᴏ Fʀᴏᴍ YᴏᴜTᴜʙᴇ."],
+        ["song", "Youtube'dan Ses İndir."],
         [
             "video",
-            "Dᴏᴡɴʟᴏᴀᴅ Vɪᴅᴇᴏ ғʀᴏᴍ YᴏᴜTᴜʙᴇ ",
+            "Youtube'dan Video İndir.",
         ],
     ],
 )
