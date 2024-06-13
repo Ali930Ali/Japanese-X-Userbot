@@ -1,24 +1,19 @@
-#MIT License
+# MIT Lisansı
 
-#Copyright (c) 2024 Japanese-X-Userbot
+# Telif Hakkı (c) 2024 Japanese-X-Userbot
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+# Bu yazılım ve ilişkili belge dosyalarının (bundan böyle "Yazılım" olarak anılacaktır) herhangi bir kişiye ücretsiz olarak verilmesine izin verilir,
+# bu yazılımı kısıtlama olmaksızın kullanma, kopyalama, değiştirme, birleştirme, yayınlama, dağıtma, alt lisanslama ve/veya satma
+# kopyaları ve yazılımı alan kişilere bu yazılımı kullanma izni verilir, ancak aşağıdaki koşullara tabidir:
 
-#The above copyright notice and this permission notice shall be included in all
-#copies or substantial portions of the Software.
+# Yukarıdaki telif hakkı bildirimi ve bu izin bildirimi tüm kopyalar veya önemli kısımlarında bulunmalıdır.
 
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-#SOFTWARE.
+# YAZILIM "OLDUĞU GİBİ" SAĞLANIR, HİÇBİR TÜRDE GARANTİ VERİLMEMEKTEDİR, AÇIK VEYA
+# ZIMNİ, SATILABİLİRLİK, BELİRLİ BİR AMACA UYGUNLUK VEYA İHLAL KONUSUNDA GARANTİLER DAHİL
+# OLMAK ÜZERE, FAKAT BUNLARLA SINIRLI OLMAKSIZIN, HİÇBİR GARANTİ VERİLMEMEKTEDİR. HERHANGİ BİR DURUMDA
+# YAZARLAR VEYA TELİF HAKKI SAHİPLERİNDEN HERHANGİ BİR TALEP, ZARAR VEYA DİĞER
+# SORUMLULUK, SÖZLEŞME DAVA, HAKSIZ FİİL VEYA BAŞKA BİR SEBEP İLE, YAZILIMIN KULLANILMASINDAN,
+# YAZILIMLA BAĞLANTILI OLARAK VEYA BAŞKA TÜRLÜ, ORTAYA ÇIKMAMALIDIR.
 
 import asyncio
 import os
@@ -29,13 +24,13 @@ from typing import Tuple
 from PIL import Image, ImageDraw, ImageFont
 
 absen = [
-    "**Coming bro** 😁",
-    "**Present sister** 😉",
-    "**Be there, please** 😁",
-    "**Present handsome** 🥵",
-    "**Present bro** 😎",
-    "**Absence later**"
-    "**I'm here, sorry I'm late** 🥺",
+    "**Geliyorum kardeş** 😁",
+    "**Varım kız kardeş** 😉",
+    "**Orada olacağım, lütfen** 😁",
+    "**Varım yakışıklı** 🥵",
+    "**Varım kardeş** 😎",
+    "**Daha sonra yok**",
+    "**Buradayım, geç kaldığım için özür dilerim** 🥺",
 ]
 
 
@@ -43,7 +38,7 @@ async def get_readable_time(seconds: int) -> str:
     count = 0
     up_time = ""
     time_list = []
-    time_suffix_list = ["s", "m", "Jam", "Day"]
+    time_suffix_list = ["sn", "dk", "saat", "gün"]
 
     while count < 4:
         count += 1
@@ -149,4 +144,5 @@ async def runcmd(cmd: str) -> Tuple[str, str, int, int]:
         stderr.decode("utf-8", "replace").strip(),
         process.returncode,
         process.pid,
-    )
+            )
+        
