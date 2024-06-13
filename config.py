@@ -37,7 +37,7 @@ API_HASH = getenv("API_HASH", "34efb38c74d5e6b25d1bb6234396a8af")
 API_ID = getenv("API_ID", "23129036")
 BOTLOG_CHATID = int(getenv("BOTLOG_CHATID") or 0)
 BOT_VER = "4.0.0@main"
-BRANCH = getenv("BRANCH", "main") #don't change this line 
+BRANCH = getenv("BRANCH", "main") # bu satırı değiştirmeyin 
 CMD_HNDLR = cmd
 BOT_TOKEN = getenv("BOT_TOKEN", "none")
 OPENAI_API_KEY = getenv("OPENAI_API_KEY", "")
@@ -71,7 +71,7 @@ if SUDOS:
         try:
             SUDO_USERS.append(int(sudo_id))
         except ValueError:
-            print(f"Warning: Invalid user ID '{sudo_id}' in SUDO_USERS environment variable.")
+            print(f"Uyarı: SUDO_USERS ortam değişkeninde geçersiz kullanıcı ID'si '{sudo_id}'.")
             continue
             
 OWNER_ID = os.getenv("OWNER_ID", "")
