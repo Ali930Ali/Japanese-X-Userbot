@@ -1,24 +1,18 @@
-#MIT License
+# MIT Lisansı
 
-#Copyright (c) 2024 Japanese-X-Userbot
+# Copyright (c) 2024 Japanese-X-Userbot
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+# İşbu belge ile, bu yazılımın ve ilgili dokümantasyon dosyalarının ("Yazılım") bir kopyasını edinen herhangi bir kişiye,
+# Yazılımda sınırlama olmaksızın kullanma, kopyalama, değiştirme, birleştirme, yayınlama, dağıtma, alt lisans verme
+# ve/veya Yazılımın kopyalarını satma hakkı, aşağıdaki koşullar altında ücretsiz olarak verilmektedir:
 
-#The above copyright notice and this permission notice shall be included in all
-#copies or substantial portions of the Software.
+# Yukarıdaki telif hakkı bildirimi ve bu izin bildirimi, Yazılımın tüm kopyalarına veya önemli bölümlerine dahil edilecektir.
 
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-#SOFTWARE.
+# YAZILIM "OLDUĞU GİBİ" SAĞLANMAKTADIR, TİCARİLİK, BELİRLİ BİR AMACA UYGUNLUK VE İHLAL ETMEME
+# GARANTİLERİ DAHİL OLMAK ÜZERE, AÇIK VEYA ZIMNİ HİÇBİR GARANTİ VERİLMEMEKTEDİR. HİÇBİR DURUMDA
+# YAZARLAR VEYA TELİF HAKKI SAHİPLERİ, YAZILIMDAN VEYA YAZILIMIN KULLANIMI VEYA
+# DİĞER İŞLEMLERLE BAĞLANTILI OLARAK MEYDANA GELEN HERHANGİ BİR TALEP, HASAR VEYA DİĞER
+# SORUMLULUKLARDAN DOLAYI SORUMLU TUTULAMAZ.
 
 import asyncio
 import logging
@@ -28,13 +22,11 @@ from datetime import datetime
 from logging.handlers import RotatingFileHandler
 from typing import Any, Dict
 
-
 from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from gpytranslate import Translator
 from pyrogram import Client
 from pytgcalls import GroupCallFactory
-
 
 from config import (
     API_HASH,
@@ -54,6 +46,7 @@ from config import (
     SUDO_USERS,
     BOT_TOKEN
 )
+
 DATABASE_URL = DB_URL
 CMD_HELP = {}
 SUDO_USER = SUDO_USERS
@@ -77,13 +70,10 @@ logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 logging.getLogger("pyrogram.session.auth").setLevel(logging.CRITICAL)
 logging.getLogger("pyrogram.session.session").setLevel(logging.CRITICAL)
 
-
 LOGS = logging.getLogger(__name__)
-
 
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
-
 
 if (
     not STRING_SESSION1
@@ -92,19 +82,19 @@ if (
     and not STRING_SESSION4
     and not STRING_SESSION5
 ):
-    LOGGER(__name__).warning("STRING SESSION NOT FOUND , SHUTDOWN BOT!")
+    LOGGER(__name__).warning("STRING SESSION BULUNAMADI, BOT KAPATILIYOR!")
     sys.exit()
 
 if not API_ID:
-    LOGGER(__name__).warning("API_ID NOT FOUND, SHUTDOWN BOT")
+    LOGGER(__name__).warning("API_ID BULUNAMADI, BOT KAPATILIYOR")
     sys.exit()
 
 if not API_HASH:
-    LOGGER(__name__).warning("API_HASH NOT FOUND, SHUTDOWN BOT")
+    LOGGER(__name__).warning("API_HASH BULUNAMADI, BOT KAPATILIYOR")
     sys.exit()
 
 if not BOT_TOKEN:
-   LOGGER(__name__).warning("WARNING: BOT TOKEN NOT FOUND, SHUTDOWN BOT")
+   LOGGER(__name__).warning("UYARI: BOT TOKEN BULUNAMADI, BOT KAPATILIYOR")
    sys.exit
 
 if BOTLOG_CHATID:
@@ -258,7 +248,6 @@ bot10 = (
     if STRING_SESSION10
     else None
 )
-
 
 bots = [bot for bot in [bot1, bot2, bot3, bot4, bot5, bot6, bot7, bot8, bot9, bot10] if bot]
 
