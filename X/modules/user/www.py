@@ -68,22 +68,22 @@ modules = CMD_HELP
     filters.command(["speed", "speedtest"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
 async def speed_test(client: Client, message: Message):
-    new_msg = await edit_or_reply(message, "`Running speed test . . .`")
+    new_msg = await edit_or_reply(message, "`Hız testi yapılıyor . . .`")
     spd = speedtest.Speedtest()
 
     new_msg = await message.edit(
-        f"`{new_msg.text}`\n" "`Getting best server based on ping . . .`"
+        f"`{new_msg.text}`\n" "`Ping'e göre en iyi sunucu bulunuyor . . .`"
     )
     spd.get_best_server()
 
-    new_msg = await message.edit(f"`{new_msg.text}`\n" "`Testing download speed . . .`")
+    new_msg = await message.edit(f"`{new_msg.text}`\n" "`İndirme hızı test ediliyor . . .`")
     spd.download()
 
-    new_msg = await message.edit(f"`{new_msg.text}`\n" "`Testing upload speed . . .`")
+    new_msg = await message.edit(f"`{new_msg.text}`\n" "`Yükleme hızı test ediliyor . . .`")
     spd.upload()
 
     new_msg = await new_msg.edit(
-        f"`{new_msg.text}`\n" "`Getting results and preparing formatting . . .`"
+        f"`{new_msg.text}`\n" "`Sonuçlar alınıyor ve formatlanıyor . . .`"
     )
     results = spd.results.dict()
 
@@ -156,10 +156,10 @@ async def module_peler(client: Client, message: Message):
 add_command_help(
     "•─╼⃝𖠁 ꜱᴘᴇᴇᴅᴛᴇꜱᴛ",
     [
-        ["dc", "Tᴏ ꜱᴇᴇ ʏᴏᴜʀ Tᴇʟᴇɢʀᴀᴍ DC."],
+        ["dc", "Telegram veri merkezini gösterir."],
         [
-            f"speedtest `or` {cmd}speed",
-            "Tᴏ ᴛᴇꜱᴛ ʏᴏᴜʀ ꜱᴇʀᴠᴇʀ ꜱᴘᴇᴇᴅ.",
+            f"speedtest `veya` {cmd}speed",
+            "Sunucu hızınızı test eder.",
         ],
     ],
 )
@@ -168,7 +168,7 @@ add_command_help(
 add_command_help(
     "•─╼⃝𖠁 Pɪɴɢ",
     [
-        ["ping", "Tᴏ Sʜᴏᴡ Yᴏᴜʀ Bᴏᴛ'ꜱ Pɪɴɢ."],
-        ["pink", "Tᴏ Sʜᴏᴡ Yᴏᴜʀ Bᴏᴛ'ꜱ Pɪɴɢ ( Tʜᴇ ᴀɴɪᴍᴀᴛɪᴏɴ ɪꜱ ɪᴜꜱᴛ ᴅɪғғᴇʀᴇɴᴛ )."],
+        ["ping", "Bot'unuzun ping süresini gösterir."],
+        ["pink", "Bot'unuzun ping süresini gösterir (Animasyon sadece farklıdır)."],
     ],
-  )
+)
