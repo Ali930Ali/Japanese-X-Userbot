@@ -33,7 +33,6 @@ import reportlab
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import SUDO_USERS
-from pyrogram import Client
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
@@ -41,29 +40,32 @@ from .help import *
 
 
 @Client.on_message(
-    filters.command(["userlist"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["kullanicilistesi"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
-async def generate_user_list_pdf():
-    users = await app.get_users()
+async def generate_user_list_pdf(client: Client, message: Message):
+    chat_id = message.chat.id
+    members = await client.get_chat_members(chat_id)
     
-    c = canvas.Canvas("user_list.pdf", pagesize=letter)
+    c = canvas.Canvas("kullanici_listesi.pdf", pagesize=letter)
     
     c.setFont("Helvetica", 12)
-    c.drawString(100, 750, "User List:")
+    c.drawString(100, 750, "Kullanıcı Listesi:")
     
     y_position = 730
-    for user in users:
-        user_info = f"{user.first_name} {user.last_name} - @{user.username}"
+    for member in members:
+        user = member.user
+        user_info = f"{user.first_name} {user.last_name or ''} - @{user.username or ''}"
         c.drawString(100, y_position, user_info)
         y_position -= 20
     
     c.save()
 
+    await client.send_document(chat_id, "kullanici_listesi.pdf")
 
 
 add_command_help(
-    "•─╼⃝𖠁 Usᴇʀʟɪsᴛ",
+    "•─╼⃝𖠁 Kᴜʟʟᴀɴɪᴄɪʟɪsᴛᴇsɪ",
     [
-       ["userlist", "Send Usᴇʀʟɪsᴛ in this chat ."],
-        ],
+       ["kullanicilistesi", "Bu sohbetteki kullanıcı listesini gönderir."],
+    ],
 )
