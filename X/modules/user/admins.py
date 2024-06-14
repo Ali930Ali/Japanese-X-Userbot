@@ -65,7 +65,7 @@ async def set_chat_photo(client: Client, message: Message):
     can_change_admin = X.can_change_info
     can_change_member = message.chat.permissions.can_change_info
     if not (can_change_admin or can_change_member):
-        await message.edit_text("You don't have enough permission")
+        await message.edit_text("Yeterli izniniz yok")
     if message.reply_to_message:
         if message.reply_to_message.photo:
             await client.set_chat_photo(
@@ -73,7 +73,7 @@ async def set_chat_photo(client: Client, message: Message):
             )
             return
     else:
-        await message.edit_text("Reply to a photo to set it !")
+        await message.edit_text("Ayarlamak için bir fotoğrafı yanıtlayın !")
 
 
 @Client.on_message(
@@ -84,15 +84,15 @@ async def member_ban(client: Client, message: Message):
     Man = await edit_or_reply(message, "`Currently Process...`")
     bot = (await client.get_chat_member(message.chat.id, client.me.id)).privileges
     if not bot.can_restrict_members:
-        return await Man.edit("Ask Admin First")
+        return await Man.edit("Önce Yöneticiye Sor")
     if not user_id:
-        return await Man.edit("Cannot find User.")
+        return await Man.edit("Kullanıcı bulunamıyor.")
     if user_id == client.me.id:
-        return await Man.edit("Examples of stupid kids, fuck you!")
+        return await Man.edit("Aptal çocuklara örnekler, siktir git!")
     if user_id in DEVS:
-        return await Man.edit("Sorry, That's my developer!")
+        return await Man.edit("Üzgünüm, bu benim geliştiricim!")
     if user_id in (await list_admins(client, message.chat.id)):
-        return await Man.edit("I can't ban an admin, You know the rules, so do i.")
+        return await Man.edit("Bir yöneticiyi yasaklayamam, sen kuralları biliyorsun, ben de öyle.")
     try:
         mention = (await client.get_users(user_id)).mention
     except IndexError:
@@ -118,10 +118,10 @@ async def member_ban(client: Client, message: Message):
 )
 async def member_unban(client: Client, message: Message):
     reply = message.reply_to_message
-    Man = await edit_or_reply(message, "`In progresss...`")
+    Man = await edit_or_reply(message, "`Devam etmekte...`")
     bot = (await client.get_chat_member(message.chat.id, client.me.id)).privileges
     if not bot.can_restrict_members:
-        return await Man.edit("Ask Admin First!")
+        return await Man.edit("Önce Yöneticiye Sor!")
     if reply and reply.sender_chat and reply.sender_chat != message.chat.id:
         return await Man.edit("It's a channel, where can you ban it, okay?!")
 
