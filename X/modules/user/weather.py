@@ -44,7 +44,7 @@ from .help import *
 )
 async def get_weather(bot: Client, message: Message):
     if len(message.command) == 1:
-        await message.edit("Usage: `.weather Delhi`")
+        await message.edit("Kullanım: `.weather Delhi`")
         await asyncio.sleep(3)
         await message.delete()
 
@@ -57,18 +57,18 @@ async def get_weather(bot: Client, message: Message):
                 async with session.get(url) as resp:
                     data = await resp.text()
         except Exception:
-            await message.edit("Failed to get the weather forecast")
+            await message.edit("Hava durumu tahmini alınamadı")
 
         if "ᴡᴇ ᴘʀᴏᴄᴇꜱꜱᴇᴅ ᴍᴏʀᴇ ᴛʜᴀɴ 𝟷M ʀᴇǫᴜᴇꜱᴛꜱ ᴛᴏᴅᴀʏ" in data:
-            await message.edit("`Sᴏʀʀʏ, ᴡᴇ ᴄᴀɴɴᴏᴛ ᴘʀᴏᴄᴇꜱꜱ ᴛʜɪꜱ ʀᴇǫᴜᴇꜱᴛ ᴛᴏᴅᴀʏ!`")
+            await message.edit("`Üzgünüz, bu isteği bugün işleyemiyoruz!`")
         else:
             weather = f"{escape(data.replace('report', 'Report'))}"
             await message.edit(weather, parse_mode=enums.ParseMode.MARKDOWN)
 
 
 add_command_help(
-    "•─╼⃝𖠁 ᴡᴇᴀᴛʜᴇʀ",
+    "•─╼⃝𖠁 ʜᴀᴠᴀ ᴅᴜʀᴜᴍᴜ",
     [
-        [".weather", "Gᴇᴛꜱ ᴡᴇᴀᴛʜᴇʀ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ғᴏʀ ᴘʀᴏᴠɪᴅᴇᴅ ʟᴏᴄᴀᴛɪᴏɴ."],
+        [".weather", "Belirtilen konum için hava durumu bilgisini alır."],
     ],
 )
