@@ -54,10 +54,10 @@ from .help import *
 )
 async def who_is(client: Client, message: Message):
     user_id = await extract_user(message)
-    X = await edit_or_reply(message, "`Processing . . .`")
+    X = await edit_or_reply(message, "`İşleniyor . . .`")
     if not user_id:
         return await X.edit(
-            "**Give userid/username/reply to get that user's info.**"
+            "**Bu kullanıcının bilgilerini almak için kullanıcı kimliği/kullanıcı adı/yanıt verin.**"
         )
     try:
         user = await client.get_users(user_id)
@@ -77,23 +77,23 @@ async def who_is(client: Client, message: Message):
             status = "-"
         dc_id = f"{user.dc_id}" if user.dc_id else "-"
         common = await client.get_common_chats(user.id)
-        out_str = f"""<b>USER INFORMATION:</b>
+        out_str = f"""<b>KULLANICI BİLGİLERİ:</b>
 
-🆔 <b>User ID:</b> <code>{user.id}</code>
-👤 <b>First Name:</b> {first_name}
-🗣️ <b>Last Name:</b> {last_name}
-🌐 <b>Username:</b> {username}
+🆔 <b>Kullanıcı ID:</b> <code>{user.id}</code>
+👤 <b>Adı:</b> {first_name}
+🗣️ <b>Soyadı:</b> {last_name}
+🌐 <b>Kullanıcı Adı:</b> {username}
 🏛️ <b>DC ID:</b> <code>{dc_id}</code>
-🤖 <b>Is Bot:</b> <code>{user.is_bot}</code>
-🚷 <b>Is Scam:</b> <code>{user.is_scam}</code>
-🚫 <b>Restricted:</b> <code>{user.is_restricted}</code>
-✅ <b>Verified:</b> <code>{user.is_verified}</code>
-⭐ <b>Premium:</b> <code>{user.is_premium}</code>
-📝 <b>User Bio:</b> {bio}
+🤖 <b>Bot mu:</b> <code>{user.is_bot}</code>
+🚷 <b>Dolandırıcı mı:</b> <code>{user.is_scam}</code>
+🚫 <b>Kısıtlı mı:</b> <code>{user.is_restricted}</code>
+✅ <b>Doğrulanmış mı:</b> <code>{user.is_verified}</code>
+⭐ <b>Premium mu:</b> <code>{user.is_premium}</code>
+📝 <b>Kullanıcı Bio:</b> {bio}
 
-👀 <b>Same groups seen:</b> {len(common)}
-👁️ <b>Last Seen:</b> <code>{status}</code>
-🔗 <b>User permanent link:</b> <a href='tg://user?id={user.id}'>{fullname}</a>
+👀 <b>Aynı gruplarda görüldü:</b> {len(common)}
+👁️ <b>Son Görülme:</b> <code>{status}</code>
+🔗 <b>Kullanıcı kalıcı bağlantısı:</b> <a href='tg://user?id={user.id}'>{fullname}</a>
 """
         photo_id = user.photo.big_file_id if user.photo else None
         if photo_id:
@@ -111,14 +111,14 @@ async def who_is(client: Client, message: Message):
         else:
             await X.edit(out_str, disable_web_page_preview=True)
     except Exception as e:
-        return await X.edit(f"**INFO:** `{e}`")
+        return await X.edit(f"**BİLGİ:** `{e}`")
 
 
 @Client.on_message(
     filters.command(["chatinfo", "cinfo", "ginfo"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
 async def chatinfo_handler(client: Client, message: Message):
-    X = await edit_or_reply(message, "`Processing...`")
+    X = await edit_or_reply(message, "`İşleniyor...`")
     try:
         if len(message.command) > 1:
             chat_u = message.command[1]
@@ -126,7 +126,7 @@ async def chatinfo_handler(client: Client, message: Message):
         else:
             if message.chat.type == ChatType.PRIVATE:
                 return await message.edit(
-                    f"Use this command in a group or use `{cmd}chatinfo [group username or id]`"
+                    f"Bu komutu bir grupta kullanın veya `{cmd}chatinfo [grup kullanıcı adı veya id]` kullanın."
                 )
             else:
                 chatid = message.chat.id
@@ -136,25 +136,25 @@ async def chatinfo_handler(client: Client, message: Message):
             y = h.replace("ChatType.", "")
             type = y.capitalize()
         else:
-            type = "Private"
+            type = "Özel"
         username = f"@{chat.username}" if chat.username else "-"
         description = f"{chat.description}" if chat.description else "-"
         dc_id = f"{chat.dc_id}" if chat.dc_id else "-"
-        out_str = f"""<b>CHAT INFORMATION:</b>
+        out_str = f"""<b>GRUP BİLGİLERİ:</b>
 
-🆔 <b>Cʜᴀᴛ ID:</b> <code>{chat.id}</code>
-👥 <b>Tɪᴛʟᴇ:</b> {chat.title}
-👥 <b>Uꜱᴇʀɴᴀᴍᴇ:</b> {username}
-📩 <b>Tʏᴘᴇ:</b> <code>{type}</code>
+🆔 <b>Grup ID:</b> <code>{chat.id}</code>
+👥 <b>Başlık:</b> {chat.title}
+👥 <b>Kullanıcı Adı:</b> {username}
+📩 <b>Tür:</b> <code>{type}</code>
 🏛️ <b>DC ID:</b> <code>{dc_id}</code>
-🗣️ <b>Iꜱ Sᴄᴀᴍ:</b> <code>{chat.is_scam}</code>
-🎭 <b>Iꜱ Fᴀᴋᴇ:</b> <code>{chat.is_fake}</code>
-✅ <b>Vᴇʀɪғɪᴇᴅ:</b> <code>{chat.is_verified}</code>
-🚫 <b>Rᴇꜱᴛʀɪᴄᴛᴇᴅ:</b> <code>{chat.is_restricted}</code>
-🔰 <b>Pʀᴏᴛᴇᴄᴛᴇᴅ:</b> <code>{chat.has_protected_content}</code>
+🗣️ <b>Dolandırıcı mı:</b> <code>{chat.is_scam}</code>
+🎭 <b>Sahte mi:</b> <code>{chat.is_fake}</code>
+✅ <b>Doğrulanmış mı:</b> <code>{chat.is_verified}</code>
+🚫 <b>Kısıtlı mı:</b> <code>{chat.is_restricted}</code>
+🔰 <b>Korunan İçerik:</b> <code>{chat.has_protected_content}</code>
 
-🚻 <b>Tᴏᴛᴀʟ ᴍᴇᴍʙᴇʀꜱ:</b> <code>{chat.members_count}</code>
-📝 <b>Dᴇꜱᴄʀɪᴘᴛɪᴏɴ:</b>
+🚻 <b>Toplam Üyeler:</b> <code>{chat.members_count}</code>
+📝 <b>Açıklama:</b>
 <code>{description}</code>
 """
         photo_id = chat.photo.big_file_id if chat.photo else None
@@ -173,19 +173,19 @@ async def chatinfo_handler(client: Client, message: Message):
         else:
             await X.edit(out_str, disable_web_page_preview=True)
     except Exception as e:
-        return await X.edit(f"**INFO:** `{e}`")
+        return await X.edit(f"**BİLGİ:** `{e}`")
 
 
 add_command_help(
-    "•─╼⃝𖠁 ɪɴғᴏ",
+    "•─╼⃝𖠁 Bilgi",
     [
         [
-            "info <ᴜꜱᴇʀɴᴀᴍᴇ/ᴜꜱᴇʀɪᴅ/ʀᴇᴘʟʏ>",
-            "ɢᴇᴛ ᴛᴇʟᴇɢʀᴀᴍ ᴜꜱᴇʀ ɪɴғᴏ ᴡɪᴛʜ ᴄᴏᴍᴘʟᴇᴛᴇ ᴅᴇꜱᴄʀɪᴘᴛɪᴏɴ.",
+            "info <kullanıcı adı/kullanıcı kimliği/yanıt>",
+            "Telegram kullanıcı bilgilerini tam açıklama ile alın.",
         ],
         [
-            "chatinfo <ᴜꜱᴇʀɴᴀᴍᴇ/ᴄʜᴀᴛɪᴅ/ʀᴇᴘʟʏ>",
-            "ɢᴇᴛ ɢʀᴏᴜᴘ ɪɴғᴏ ᴡɪᴛʜ ᴄᴏᴍᴘʟᴇᴛᴇ ᴅᴇꜱᴄʀɪᴘᴛɪᴏɴ.",
+            "chatinfo <kullanıcı adı/grup kimliği/yanıt>",
+            "Grup bilgilerini tam açıklama ile alın.",
         ],
     ],
-                  )
+)
