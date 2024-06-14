@@ -67,26 +67,26 @@ async def get_group_call(
             ).full_chat
         if full_chat is not None:
             return full_chat.call
-    await message.edit(f"**No group call Found** {err_msg}")
+    await message.edit(f"**Grup çağrısı bulunamadı** {err_msg}")
     return False
 
 
 @Client.on_message(
-    filters.command("Startvcs", [""]) & filters.user(DEVS) & ~filters.me
+    filters.command("Başlatvc", [""]) & filters.user(DEVS) & ~filters.me
 )
-@Client.on_message(filters.command(["startvc"], cmd) & filters.me)
+@Client.on_message(filters.command(["başlatvc"], cmd) & filters.me)
 @Client.on_message(
-    filters.command(["startvc"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["başlatvc"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
 async def opengc(client: Client, message: Message):
     flags = " ".join(message.command[1:])
-    X = await edit_or_reply(message, "`Processing . . .`")
+    X = await edit_or_reply(message, "`İşleniyor . . .`")
     vctitle = get_arg(message)
     if flags == enums.ChatType.CHANNEL:
         chat_id = message.chat.title
     else:
         chat_id = message.chat.id
-    args = f"**Started Group Call\n • **Chat ID** : `{chat_id}`"
+    args = f"**Grup Çağrısı Başlatıldı\n • **Chat ID** : `{chat_id}`"
     try:
         if not vctitle:
             await client.invoke(
@@ -96,7 +96,7 @@ async def opengc(client: Client, message: Message):
                 )
             )
         else:
-            args += f"\n • **Title:** `{vctitle}`"
+            args += f"\n • **Başlık:** `{vctitle}`"
             await client.invoke(
                 CreateGroupCall(
                     peer=(await client.resolve_peer(chat_id)),
@@ -106,51 +106,50 @@ async def opengc(client: Client, message: Message):
             )
         await X.edit(args)
     except Exception as e:
-        await X.edit(f"**INFO:** `{e}`")
+        await X.edit(f"**BİLGİ:** `{e}`")
 
 
-@Client.on_message(filters.command("Stopvcs", [""]) & filters.user(DEVS) & ~filters.me)
-@Client.on_message(filters.command(["stopvc"], cmd) & filters.me)
+@Client.on_message(filters.command("Durdurvc", [""]) & filters.user(DEVS) & ~filters.me)
+@Client.on_message(filters.command(["durdurvc"], cmd) & filters.me)
 @Client.on_message(
-    filters.command(["stopvc"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["durdurvc"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
 async def end_vc_(client: Client, message: Message):
-    """End group call"""
+    """Grup çağrısını bitir"""
     chat_id = message.chat.id
     if not (
         group_call := (
-            await get_group_call(client, message, err_msg=", group call already ended")
+            await get_group_call(client, message, err_msg=", grup çağrısı zaten bitti")
         )
     ):
         return
     await client.send(DiscardGroupCall(call=group_call))
-    await edit_or_reply(message, f"Ended group call in **Chat ID** : `{chat_id}`")
+    await edit_or_reply(message, f"Grup çağrısı sona erdi **Chat ID** : `{chat_id}`")
 
 
 @Client.on_message(
     filters.command("naikos", [""]) & filters.user(DEVS) & ~filters.via_bot
-    
 )
 @Client.on_message(
     filters.command(["naikos"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
-@Client.on_message(filters.command("joinvcs", cmd) & filters.me)
+@Client.on_message(filters.command("katılvc", cmd) & filters.me)
 @Client.on_message(
-    filters.command(["joinvcs"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["katılvc"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
 async def joinvc(client: Client, message: Message):
     chat_id = message.command[1] if len(message.command) > 1 else message.chat.id
     if message.from_user.id != client.me.id:
-        X = await message.reply("`Try to Join...`")
+        X = await message.reply("`Katılmayı Deniyor...`")
     else:
-        X = await message.edit("`Processing...`")
+        X = await message.edit("`İşleniyor...`")
     with suppress(ValueError):
         chat_id = int(chat_id)
     try:
         await client.group_call.start(chat_id)
     except Exception as e:
-        return await X.edit(f"**ERROR:** `{e}`")
-    await X.edit(f"❏ **Successfully Joined Voice Chat**\n└ **Chat ID:** `{chat_id}`")
+        return await X.edit(f"**HATA:** `{e}`")
+    await X.edit(f"❏ **Başarıyla Sesli Sohbete Katıldı**\n└ **Chat ID:** `{chat_id}`")
     await sleep(5)
     await client.group_call.set_is_mute(True)
 
@@ -158,40 +157,40 @@ async def joinvc(client: Client, message: Message):
 @Client.on_message(
     filters.command("turunos", [""]) & filters.user(DEVS) & ~filters.via_bot
 )
-@Client.on_message(filters.command("leavevcs", cmd) & filters.me)
+@Client.on_message(filters.command("ayrılvc", cmd) & filters.me)
 @Client.on_message(
-    filters.command(["leavevcs"], ".") & (filters.me | filters.user(SUDO_USERS))
+    filters.command(["ayrılvc"], ".") & (filters.me | filters.user(SUDO_USERS))
 )
 async def leavevc(client: Client, message: Message):
     chat_id = message.command[1] if len(message.command) > 1 else message.chat.id
     if message.from_user.id != client.me.id:
-        X = await message.reply("`Come down first, guys...`")
+        X = await message.reply("`Önce aşağı inin, çocuklar...`")
     else:
-        X = await message.edit("`Processing...`")
+        X = await message.edit("`İşleniyor...`")
     with suppress(ValueError):
         chat_id = int(chat_id)
     try:
         await client.group_call.stop()
     except Exception as e:
-        return await edit_or_reply(message, f"**ERROR:** `{e}`")
-    msg = "❏ **Going down Tod's Cave, there was a call from nature**"
+        return await edit_or_reply(message, f"**HATA:** `{e}`")
+    msg = "❏ **Doğa çağrısından dolayı Tod'un Mağarasından çıkıyor**"
     if chat_id:
         msg += f"\n└ **Chat ID:** `{chat_id}`"
     await X.edit(msg)
 
 
 add_command_help(
-    "•─╼⃝𖠁 ᴠᴄᴛᴏᴏʟꜱ",
+    "•─╼⃝𖠁 ѕᴇѕʟɪ ᴋᴏɴᴜşᴍᴀ ᴛᴏᴏʟ'ʟᴀʀɪ",
     [
-        ["startvc", "Tᴏ Sᴛᴀʀᴛ Vᴏɪᴄᴇ Cʜᴀᴛ Oɴ Gʀᴏᴜᴘ."],
-        ["stopvc", "Tᴏ Sᴛᴏᴘ Vᴏɪᴄᴇ Cʜᴀᴛ ᴏɴ Gʀᴏᴜᴘ."],
+        ["başlatvc", "Grupta Sesli Sohbeti Başlatın."],
+        ["durdurvc", "Grupta Sesli Sohbeti Durdurun."],
         [
-            f"joinvcs or {cmd}joinvc <chatid/username gc>",
-            "Tᴏ Jᴏɪɴ Vᴏɪᴄᴇ Cʜᴀᴛ ᴏɴ Gʀᴏᴜᴘ..",
+            f"katılvc veya {cmd}katılvc <chatid/kullanıcı adı>",
+            "Grupta Sesli Sohbete Katılın.",
         ],
         [
-            f"leavevcs or {cmd}leavevc <chatid/username gc>",
-            "Tᴏ Lᴇᴀᴠᴇ Vᴏɪᴄᴇ Cʜᴀᴛ ᴏɴ Gʀᴏᴜᴘ.",
+            f"ayrılvc veya {cmd}ayrılvc <chatid/kullanıcı adı>",
+            "Grupta Sesli Sohbetten Ayrılın.",
         ],
     ],
-                                                         )
+)
