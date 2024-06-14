@@ -37,19 +37,20 @@ from .help import *
 
 
 async def progress_callback(current, total, bot: Client, message: Message):
-    if int((current / total) * 100) % 25 == 0:
-        await message.edit(f"{humanize.naturalsize(current)} / {humanize.naturalsize(total)}")
+    """Yükleme ilerlemesini güncellemek için geri arama fonksiyonu."""
+    if int((current / total) * 100) % 25 == 0:  # Her %25 ilerlemede güncelle
+        await message.edit(f"Yükleniyor: {humanize.naturalsize(current)} / {humanize.naturalsize(total)}")
 
 
-@Client.on_message(filters.command('upload', '.') & filters.me)
-@Client.on_message(
-    filters.command(["upload"], ".") & (filters.me | filters.user(SUDO_USERS))
-)
+@Client.on_message(filters.command(["upload"], ".") & (filters.me | filters.user(SUDO_USERS)))
 async def upload_helper(bot: Client, message: Message):
+    """Dosya yükleme komutu."""
     if len(message.command) > 1:
-        await bot.send_document('self', message.command[1], progress=progress_callback, progress_args=(bot, message))
+        dosya_yolu = message.command[1]
+        # Belgeyi ilerleme geri araması ile gönder
+        await bot.send_document('me', dosya_yolu, progress=progress_callback, progress_args=(bot, message))
     else:
-        await message.edit('No path provided.')
+        await message.edit('Dosya yolu sağlanmadı.')
         await asyncio.sleep(3)
 
     await message.delete()
@@ -58,6 +59,6 @@ async def upload_helper(bot: Client, message: Message):
 add_command_help(
     "•─╼⃝𖠁 Uᴘʟᴏᴀᴅ",
     [
-        [".upload", "Uᴘʟᴏᴀᴅ ᴛʜᴇ ғɪʟᴇ ᴛᴏ ᴛᴇʟᴇɢʀᴀᴍ ғʀᴏᴍ ᴛʜᴇ ɢɪᴠᴇɴ ꜱʏꜱᴛᴇᴍ ғɪʟᴇ ᴘᴀᴛʜ."],
+        [".upload", "Belirtilen sistem dosya yolundan Telegram'a dosya yükler."],
     ],
 )
