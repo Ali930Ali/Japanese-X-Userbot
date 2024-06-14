@@ -63,19 +63,18 @@ async def abuse(x: Client, e: Message):
             await asyncio.sleep(0.1)
 
     else:
-        await e.reply_text(".𝐚𝐛𝐮ꜱ𝐞 𝟏𝟎 <𝐫𝐞𝐩𝐥𝐲 𝐭𝐨 𝐮ꜱ𝐞𝐫 𝐨𝐫 𝐮ꜱ𝐞𝐫𝐧𝐚𝐦𝐞>")
+        await e.reply_text(".𝐚𝐛𝐮ꜱ𝐞 𝟏𝟎 <𝐫𝐞𝐩𝐥𝐲 𝐭𝐨 𝐮𝐬𝐞𝐫 𝐨𝐫 𝐮𝐬𝐞𝐫𝐧𝐚𝐦𝐞>")
 
-# Credits: KUNAL AND NOBITA XD 
-# Copyright (C) 2024 JAPANESE X USERBOT AND STORM USERBOT 
-#DON'T KANG FUCKING COWARD
-#BSDKE KANG KIYA TOH SOCH LIYO
-#AAG LAGA DUNGA TERE ANDAR 
-#SAMJHA ? 
-
+# Katkı Sağlayanlar: KUNAL VE NOBITA XD
+# Telif Hakkı (C) 2024 JAPANESE X USERBOT VE STORM USERBOT
+# KOPYALAMAYA ÇALIŞMA KORKAK!
+# KOPYALARSAN DÜŞÜN!
+# İÇİNE ATEŞ KOYARIM!
+# ANLADIN MI?
 
 add_command_help(
     "•─╼⃝𖠁 ᴀʙᴜꜱᴇ",
     [
-        ["abuse", "Tᴏ abuse someone."],
+        ["abuse", "Birine küfür etmek için."],
     ],
-  )
+)
